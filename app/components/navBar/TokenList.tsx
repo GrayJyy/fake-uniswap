@@ -1,0 +1,23 @@
+'use client'
+
+type Props = {
+  visible: boolean
+  onClose: () => void
+  onOpen: () => void
+  data: any
+}
+const TokenList: React.FC<Props> = ({ visible, onClose, onOpen, data }) => {
+  return (
+    <div
+      className={`w-[200px] h-[420px]  bg-neutral-300 rounded-md text-rose-500 p-2 transition opacity-0 transform scale-95 duration-700 ${
+        visible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+      }`}
+      onMouseEnter={onOpen}
+      onMouseLeave={onClose}
+    >
+      TokenList
+    </div>
+  )
+}
+
+export default TokenList
