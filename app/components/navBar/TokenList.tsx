@@ -15,7 +15,7 @@ const TokenList: React.FC<Props> = ({ visible, onClose, onOpen, data }) => {
       onMouseEnter={onOpen}
       onMouseLeave={onClose}
     >
-      TokenList
+      <p className='font-bold text-xl'>Your token list</p>
     </div>
   )
 }

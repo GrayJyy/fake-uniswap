@@ -1,10 +1,11 @@
-import NavBarPage from './components/navBar/NavBar'
 import Wrapper from './components/Wrapper'
 import './globals.css'
 import { Nunito } from 'next/font/google'
 import '@rainbow-me/rainbowkit/styles.css'
+import dynamic from 'next/dynamic'
 
 const nunito = Nunito({ subsets: ['latin'] })
+const DynamicNavBarPage = dynamic(() => import('./components/navBar/NavBar'), { ssr: false })
 
 export const metadata = {
   title: 'Fake Uniswap',
@@ -16,10 +17,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang='en'>
       <body className={nunito.className}>
         <Wrapper>
-          <div>
-            <NavBarPage />
-            {children}
-          </div>
+          <DynamicNavBarPage />
+          {children}
         </Wrapper>
       </body>
     </html>
