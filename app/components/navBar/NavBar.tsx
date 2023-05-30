@@ -42,7 +42,7 @@ const NavBarPage = () => {
           <Search2Icon />
         </InputRightElement>
       </InputGroup>
-      <div className={`${isConnected ? '' : 'col-span-2 col-end-8'}`}>
+      <div className={`${isConnected ? '' : 'col-span-2 col-end-8 md:ml-32'}`}>
         <Connector />
       </div>
       {isConnected && (
