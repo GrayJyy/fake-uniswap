@@ -22,10 +22,11 @@ import {
 import { SettingsIcon, LockIcon, UnlockIcon } from '@chakra-ui/icons'
 import { Field, Form, Formik } from 'formik'
 import { useState } from 'react'
+import { AccountProps } from '../model/useStore'
 
-type Props = { account: string; tokenList: any }
+type Props = { accountStat: AccountProps; tokenList: any }
 
-const Exchange: React.FC<Props> = ({ account, tokenList }) => {
+const Exchange: React.FC<Props> = ({ accountStat, tokenList }) => {
   const [isSetting, setIsSetting] = useBoolean(false)
   const [tolerance, setTolerance] = useState({ value: 0.01, enabled: false })
   const [waitingTime, setWaitingTime] = useState({ value: 30, enabled: false })
@@ -94,15 +95,15 @@ const Exchange: React.FC<Props> = ({ account, tokenList }) => {
           </div>
           <div className='my-8'>
             <Button
-              isDisabled={account === ''}
+              isDisabled={!accountStat.isConnected}
               mt={4}
               colorScheme='pink'
               variant='outline'
               type='submit'
               isLoading={props.isSubmitting}
-              className={`w-full ${account !== '' && 'hover:bg-slate-400 hover:text-teal-50'}`}
+              className={`w-full ${accountStat.isConnected && 'hover:bg-slate-400 hover:text-teal-50'}`}
             >
-              {account !== '' ? 'Submit' : 'Not Connected'}
+              {accountStat.isConnected ? 'Submit' : 'Not Connected'}
             </Button>
           </div>
         </Form>

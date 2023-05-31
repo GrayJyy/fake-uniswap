@@ -70,6 +70,9 @@ dependencies:
   wagmi:
     specifier: ^1.0.8
     version: 1.0.8(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)(viem@0.3.37)
+  zustand:
+    specifier: ^4.3.8
+    version: 4.3.8(react@18.2.0)
 
 devDependencies:
   react-icons:
