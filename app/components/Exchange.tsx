@@ -48,6 +48,9 @@ const Exchange: React.FC<Props> = ({ accountStat, tokenList }) => {
     if (!value) {
       error = 'it is required'
     }
+    if (!/\b([1-9]|[1-9][0-9]|100)\b/.test(value)) {
+      error = 'please enter a number between 1 and 100'
+    }
     return error
   }
   const renderModal = () => {
@@ -81,7 +84,6 @@ const Exchange: React.FC<Props> = ({ accountStat, tokenList }) => {
       initialValues={{ from: '', to: '' }}
       onSubmit={(values, actions) => {
         setTimeout(() => {
-          //   alert(JSON.stringify(values, null, 2))
           console.log(values)
           actions.setSubmitting(false)
         }, 1000)
