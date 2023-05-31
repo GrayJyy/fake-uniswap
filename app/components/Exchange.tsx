@@ -18,25 +18,63 @@ import {
   NumberDecrementStepper,
   NumberIncrementStepper,
   Switch,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  useDisclosure,
 } from '@chakra-ui/react'
 import { SettingsIcon, LockIcon, UnlockIcon } from '@chakra-ui/icons'
 import { Field, Form, Formik } from 'formik'
 import { useState } from 'react'
+import { FaEthereum } from 'react-icons/fa'
 import { AccountProps } from '../model/useStore'
 
 type Props = { accountStat: AccountProps; tokenList: any }
-
+const coin = ['ETH', 'Dai', 'Dog', 'Gay', 'Cat', 'XAE']
 const Exchange: React.FC<Props> = ({ accountStat, tokenList }) => {
+  const [title, setTitle] = useState('from')
   const [isSetting, setIsSetting] = useBoolean(false)
   const [tolerance, setTolerance] = useState({ value: 0.01, enabled: false })
   const [waitingTime, setWaitingTime] = useState({ value: 30, enabled: false })
   const [hasDeadline, setHasDeadline] = useBoolean(false)
+  const [selectFrom, setSelectFrom] = useState('ETH')
+  const [selectTo, setSelectTo] = useState('ETH')
+  const { isOpen, onOpen, onClose } = useDisclosure()
   function validate(value: any) {
     let error
     if (!value) {
       error = 'it is required'
     }
     return error
+  }
+  const renderModal = () => {
+    return (
+      <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent className='text-rose-500'>
+          <ModalHeader>{`Change the ${title} coin`}</ModalHeader>
+          <ModalCloseButton className='border-null' />
+          <ModalBody className='flex flex-row items-center gap-2  pb-8 flex-wrap'>
+            {coin.map(i => (
+              <div
+                key={i}
+                className='rounded-md bg-rose-500 text-neutral-100  flex flex-row items-center justify-between   h-8 px-1 text-xl cursor-pointer hover:bg-rose-900  w-1/6 flex-shrink-0'
+                onClick={() => {
+                  title === 'from' ? setSelectFrom(i) : setSelectTo(i)
+                  onClose()
+                }}
+              >
+                <FaEthereum />
+                <span>{i}</span>
+              </div>
+            ))}
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    )
   }
   const renderForm = () => (
     <Formik
@@ -59,12 +97,20 @@ const Exchange: React.FC<Props> = ({ accountStat, tokenList }) => {
                     <InputGroup>
                       <Input
                         {...field}
+                        autoComplete='off'
                         color='tomato'
                         placeholder='from'
                         _placeholder={{ opacity: 0.4, color: 'inherit' }}
                       />
-                      <InputRightElement>
-                        <SettingsIcon />
+                      <InputRightElement
+                        className='rounded-md bg-rose-500 text-neutral-100 flex flex-row items-center justify-between w-16 px-1 text-lg cursor-pointer hover:bg-rose-900'
+                        onClick={() => {
+                          setTitle('from')
+                          onOpen()
+                        }}
+                      >
+                        <FaEthereum />
+                        <span>{selectFrom}</span>
                       </InputRightElement>
                     </InputGroup>
                     <FormErrorMessage>{form.errors.from}</FormErrorMessage>
@@ -80,12 +126,20 @@ const Exchange: React.FC<Props> = ({ accountStat, tokenList }) => {
                   <InputGroup>
                     <Input
                       {...field}
+                      autoComplete='off'
                       color='tomato'
                       placeholder='to'
                       _placeholder={{ opacity: 0.4, color: 'inherit' }}
                     />
-                    <InputRightElement>
-                      <SettingsIcon />
+                    <InputRightElement
+                      className='rounded-md bg-rose-500 text-neutral-100 flex flex-row items-center justify-between w-16 px-1 text-lg cursor-pointer hover:bg-rose-900'
+                      onClick={() => {
+                        setTitle('to')
+                        onOpen()
+                      }}
+                    >
+                      <FaEthereum />
+                      <span>{selectTo}</span>
                     </InputRightElement>
                   </InputGroup>
                   <FormErrorMessage>{form.errors.to}</FormErrorMessage>
@@ -204,6 +258,7 @@ const Exchange: React.FC<Props> = ({ accountStat, tokenList }) => {
           </CardHeader>
           <CardBody>{isSetting ? renderSetting() : renderForm()}</CardBody>
         </Card>
+        {renderModal()}
       </AbsoluteCenter>
     </>
   )
