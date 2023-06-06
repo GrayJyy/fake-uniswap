@@ -109,7 +109,7 @@ const useSwapTokenContract = (params: UseContractProps) => {
   return { write, data, isFetching, isSuccess, unwatch }
 }
 
-const useSwapMultihop = (params: UseContractProps) => {
+const useSwapMultihopContract = (params: UseContractProps) => {
   const { functionName, value, args, eventName, listener } = params
   const { write, data, isFetching, isSuccess, unwatch } = useContract({
     address: ADDRESSES[useNet()].multiSwapToken,
@@ -122,5 +122,38 @@ const useSwapMultihop = (params: UseContractProps) => {
   })
   return { write, data, isFetching, isSuccess, unwatch }
 }
+const useIwethContract = (params: UseContractProps) => {
+  const { functionName, value, args, eventName, listener } = params
+  const { write, data, isFetching, isSuccess, unwatch } = useContract({
+    address: ADDRESSES[useNet()].IWeth,
+    abi: IWETH_ABI,
+    functionName,
+    value,
+    args,
+    eventName,
+    listener,
+  })
+  return { write, data, isFetching, isSuccess, unwatch }
+}
+const useDaiContract = (params: UseContractProps) => {
+  const { functionName, value, args, eventName, listener } = params
+  const { write, data, isFetching, isSuccess, unwatch } = useContract({
+    address: ADDRESSES[useNet()].Dai,
+    abi: IWETH_ABI,
+    functionName,
+    value,
+    args,
+    eventName,
+    listener,
+  })
+  return { write, data, isFetching, isSuccess, unwatch }
+}
 
-export { useBooContract, useXddContract, useSwapTokenContract, useSwapMultihop, useNet }
+export {
+  useBooContract,
+  useXddContract,
+  useSwapTokenContract,
+  useSwapMultihopContract,
+  useIwethContract,
+  useDaiContract,
+}

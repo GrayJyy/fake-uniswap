@@ -22,6 +22,7 @@ type AddressesProps = {
     multiSwapToken: `0x${string}`
     swapToken: `0x${string}`
     IWeth: `0x${string}`
+    Dai: `0x${string}`
   }
   sepolia: {
     booToken: `0x${string}`
@@ -29,6 +30,7 @@ type AddressesProps = {
     multiSwapToken: `0x${string}`
     swapToken: `0x${string}`
     IWeth: `0x${string}`
+    Dai: `0x${string}`
   }
   mainnet: {
     booToken: `0x${string}`
@@ -36,6 +38,7 @@ type AddressesProps = {
     multiSwapToken: `0x${string}`
     swapToken: `0x${string}`
     IWeth: `0x${string}`
+    Dai: `0x${string}`
   }
 }
 const ADDRESSES: AddressesProps = {
@@ -45,6 +48,7 @@ const ADDRESSES: AddressesProps = {
     multiSwapToken: '0xAe2563b4315469bF6bdD41A6ea26157dE57Ed94e',
     swapToken: '0x49149a233de6E4cD6835971506F47EE5862289c1',
     IWeth: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+    Dai: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
   },
   sepolia: {
     booToken: '0x687bB6c57915aa2529EfC7D2a26668855e022fAE',
@@ -52,6 +56,7 @@ const ADDRESSES: AddressesProps = {
     multiSwapToken: '0xAe2563b4315469bF6bdD41A6ea26157dE57Ed94e',
     swapToken: '0x49149a233de6E4cD6835971506F47EE5862289c1',
     IWeth: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+    Dai: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
   },
   mainnet: {
     booToken: '0x687bB6c57915aa2529EfC7D2a26668855e022fAE',
@@ -59,6 +64,7 @@ const ADDRESSES: AddressesProps = {
     multiSwapToken: '0xAe2563b4315469bF6bdD41A6ea26157dE57Ed94e',
     swapToken: '0x49149a233de6E4cD6835971506F47EE5862289c1',
     IWeth: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+    Dai: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
   },
 }
 export { NAV_ITEMS, ADDRESSES, ERC20_BOO_ABI, ERC20_XDD_ABI, SWAP_MULTIHOP_ABI, SWAP_TOKEN_ABI, IWETH_ABI }
