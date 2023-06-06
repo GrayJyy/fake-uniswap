@@ -30,7 +30,7 @@ import { SettingsIcon, LockIcon, UnlockIcon } from '@chakra-ui/icons'
 import { Field, Form, Formik } from 'formik'
 import { useState } from 'react'
 import { FaEthereum } from 'react-icons/fa'
-import { State } from '../model/initialState'
+import { State } from '../model'
 import { useAccount } from 'wagmi'
 
 const coin = ['ETH', 'Dai', 'Dog', 'Gay', 'Cat', 'XAE']
