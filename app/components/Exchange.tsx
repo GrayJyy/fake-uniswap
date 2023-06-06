@@ -30,11 +30,10 @@ import { SettingsIcon, LockIcon, UnlockIcon } from '@chakra-ui/icons'
 import { Field, Form, Formik } from 'formik'
 import { useState } from 'react'
 import { FaEthereum } from 'react-icons/fa'
-import { AccountProps } from '../model/useStore'
+import { State } from '../model/initialState'
 
-type Props = { accountStat: AccountProps; tokenList: any }
 const coin = ['ETH', 'Dai', 'Dog', 'Gay', 'Cat', 'XAE']
-const Exchange: React.FC<Props> = ({ accountStat, tokenList }) => {
+const Exchange: React.FC<State> = ({ accountInfo, tokenList }) => {
   const [title, setTitle] = useState('from')
   const [isSetting, setIsSetting] = useBoolean(false)
   const [tolerance, setTolerance] = useState({ value: 0.01, enabled: false })
@@ -151,15 +150,15 @@ const Exchange: React.FC<Props> = ({ accountStat, tokenList }) => {
           </div>
           <div className='my-8'>
             <Button
-              isDisabled={!accountStat.isConnected}
+              isDisabled={!accountInfo.isConnected}
               mt={4}
               colorScheme='pink'
               variant='outline'
               type='submit'
               isLoading={props.isSubmitting}
-              className={`w-full ${accountStat.isConnected && 'hover:bg-slate-400 hover:text-teal-50'}`}
+              className={`w-full ${accountInfo.isConnected && 'hover:bg-slate-400 hover:text-teal-50'}`}
             >
-              {accountStat.isConnected ? 'Submit' : 'Not Connected'}
+              {accountInfo.isConnected ? 'Submit' : 'Not Connected'}
             </Button>
           </div>
         </Form>

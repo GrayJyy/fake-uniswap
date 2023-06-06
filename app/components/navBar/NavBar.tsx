@@ -9,7 +9,7 @@ import Connector from './Connector'
 import { BsCoin } from 'react-icons/bs'
 import TokenList from './TokenList'
 import { useAccount } from 'wagmi'
-import useStore from '@/app/model/useStore'
+import { useStore } from '@/app/model/createStore'
 import { useEffect } from 'react'
 
 const NavBarPage = () => {
@@ -18,7 +18,7 @@ const NavBarPage = () => {
   const { isConnected, address } = useAccount()
   const { setAccountStat } = useStore()
   useEffect(() => {
-    setAccountStat({ address, isConnected })
+    setAccountStat({ accountInfo: { address, isConnected } })
   }, [address, isConnected, setAccountStat])
 
   return (
