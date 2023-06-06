@@ -9,17 +9,11 @@ import Connector from './Connector'
 import { BsCoin } from 'react-icons/bs'
 import TokenList from './TokenList'
 import { useAccount } from 'wagmi'
-import { useStore } from '@/app/model/createStore'
-import { useEffect } from 'react'
 
 const NavBarPage = () => {
   const [isLargerThan768] = useMediaQuery('(min-width: 768px)')
   const [visible, setVisible] = useBoolean(false)
-  const { isConnected, address } = useAccount()
-  const { setAccountStat } = useStore()
-  useEffect(() => {
-    setAccountStat({ accountInfo: { address, isConnected } })
-  }, [address, isConnected, setAccountStat])
+  const { isConnected } = useAccount()
 
   return (
     <div className='grid grid-cols-7 justify-between items-center gap-4 mx-auto my-8 w-11/12'>

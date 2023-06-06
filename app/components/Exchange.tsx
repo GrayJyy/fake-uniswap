@@ -31,9 +31,10 @@ import { Field, Form, Formik } from 'formik'
 import { useState } from 'react'
 import { FaEthereum } from 'react-icons/fa'
 import { State } from '../model/initialState'
+import { useAccount } from 'wagmi'
 
 const coin = ['ETH', 'Dai', 'Dog', 'Gay', 'Cat', 'XAE']
-const Exchange: React.FC<State> = ({ accountInfo, tokenList }) => {
+const Exchange: React.FC<Partial<State>> = ({ tokenList }) => {
   const [title, setTitle] = useState('from')
   const [isSetting, setIsSetting] = useBoolean(false)
   const [tolerance, setTolerance] = useState({ value: 0.01, enabled: false })
@@ -42,6 +43,7 @@ const Exchange: React.FC<State> = ({ accountInfo, tokenList }) => {
   const [selectFrom, setSelectFrom] = useState('ETH')
   const [selectTo, setSelectTo] = useState('ETH')
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isConnected } = useAccount()
   function validate(value: any) {
     let error
     if (!value) {
@@ -150,15 +152,15 @@ const Exchange: React.FC<State> = ({ accountInfo, tokenList }) => {
           </div>
           <div className='my-8'>
             <Button
-              isDisabled={!accountInfo.isConnected}
+              isDisabled={!isConnected}
               mt={4}
               colorScheme='pink'
               variant='outline'
               type='submit'
               isLoading={props.isSubmitting}
-              className={`w-full ${accountInfo.isConnected && 'hover:bg-slate-400 hover:text-teal-50'}`}
+              className={`w-full ${isConnected && 'hover:bg-slate-400 hover:text-teal-50'}`}
             >
-              {accountInfo.isConnected ? 'Submit' : 'Not Connected'}
+              {isConnected ? 'Submit' : 'Not Connected'}
             </Button>
           </div>
         </Form>

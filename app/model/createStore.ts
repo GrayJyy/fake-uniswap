@@ -5,11 +5,10 @@
 import { create } from 'zustand'
 // import { persist } from 'zustand/middleware'
 
-import type { Account, State, TokenList } from './initialState'
+import type { State, TokenList } from './initialState'
 import { initialState } from './initialState'
 
 interface Action {
-  setAccountStat: (qty: Account) => void
   setTokenList: (qty: TokenList) => void
 }
 
@@ -17,9 +16,6 @@ export type Store = State & Action
 
 export const useStore = create<Store>()((set, get) => ({
   ...initialState,
-  setAccountStat: qty => {
-    set({ ...qty })
-  },
   setTokenList: qty => {
     set({ ...qty })
   },
@@ -35,9 +31,6 @@ export const useStore = create<Store>()((set, get) => ({
   persist(
     (set, get) => ({
       ...initialState,
-      setAccountStat: qty => {
-        set({ ...qty })
-      },
       setTokenList: qty => {
         set({ ...qty })
       },
