@@ -1,7 +1,8 @@
-import { usePrepareContractWrite, useContractWrite, useWaitForTransaction, useContractEvent } from 'wagmi'
+import { usePrepareContractWrite, useContractWrite, useWaitForTransaction, useContractEvent, useNetwork } from 'wagmi'
 import type { WriteContractResult, WatchContractEventCallback } from '@wagmi/core'
+import { ADDRESSES, ERC20_BOO_ABI, ERC20_XDD_ABI, SWAP_TOKEN_ABI, SWAP_MULTIHOP_ABI, IWETH_ABI } from '../constants'
 
-type UseContractProps = {
+export type UseContractProps = {
   address?: `0x${string}`
   abi?: any[]
   functionName?: string
@@ -17,6 +18,8 @@ type ReturnValueProps = {
   isFetching: boolean
   unwatch: (() => void) | undefined
 }
+
+type NetworkProps = 'hardhat' | 'sepolia' | 'mainnet'
 
 /**
  * 用于调用智能合约的 Hook。
@@ -60,4 +63,64 @@ const useContract = ({
   return { write, data, isSuccess, isFetching, unwatch }
 }
 
-export { useContract }
+const useNet = () => {
+  const { chain } = useNetwork()
+  return chain!.name as NetworkProps
+}
+const useBooContract = (params: UseContractProps) => {
+  const { functionName, value, args, eventName, listener } = params
+  const { write, data, isFetching, isSuccess, unwatch } = useContract({
+    address: ADDRESSES[useNet()].booToken,
+    abi: ERC20_BOO_ABI,
+    functionName,
+    value,
+    args,
+    eventName,
+    listener,
+  })
+  return { write, data, isFetching, isSuccess, unwatch }
+}
+
+const useXddContract = (params: UseContractProps) => {
+  const { functionName, value, args, eventName, listener } = params
+  const { write, data, isFetching, isSuccess, unwatch } = useContract({
+    address: ADDRESSES[useNet()].xddToken,
+    abi: ERC20_XDD_ABI,
+    functionName,
+    value,
+    args,
+    eventName,
+    listener,
+  })
+  return { write, data, isFetching, isSuccess, unwatch }
+}
+
+const useSwapTokenContract = (params: UseContractProps) => {
+  const { functionName, value, args, eventName, listener } = params
+  const { write, data, isFetching, isSuccess, unwatch } = useContract({
+    address: ADDRESSES[useNet()].swapToken,
+    abi: SWAP_TOKEN_ABI,
+    functionName,
+    value,
+    args,
+    eventName,
+    listener,
+  })
+  return { write, data, isFetching, isSuccess, unwatch }
+}
+
+const useSwapMultihop = (params: UseContractProps) => {
+  const { functionName, value, args, eventName, listener } = params
+  const { write, data, isFetching, isSuccess, unwatch } = useContract({
+    address: ADDRESSES[useNet()].multiSwapToken,
+    abi: SWAP_MULTIHOP_ABI,
+    functionName,
+    value,
+    args,
+    eventName,
+    listener,
+  })
+  return { write, data, isFetching, isSuccess, unwatch }
+}
+
+export { useBooContract, useXddContract, useSwapTokenContract, useSwapMultihop, useNet }
