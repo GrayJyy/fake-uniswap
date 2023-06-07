@@ -21,7 +21,7 @@ const TokenList: React.FC<Props> = ({ visible, onClose, onOpen, data }) => {
       <p className='font-bold text-xl'>Your token list</p>
       {data.tokenList.map(i => (
         <div key={i.symbol}>
-          {`name: ${i.name}`} - {`amount: ${ethers.formatEther(BigInt(i.balance))}`}
+          {`name: ${i.name}`} - {`amount: ${ethers.formatEther(BigInt(i?.balance || ''))}`}
         </div>
       ))}
     </div>

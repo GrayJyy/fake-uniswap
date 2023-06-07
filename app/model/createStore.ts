@@ -14,17 +14,12 @@ interface Action {
 
 export type Store = State & Action
 
-export const useStore = create<Store>()(
-  devtools(
-    (set, get) => ({
-      ...initialState,
-      setTokenList: qty => {
-        set({ ...qty })
-      },
-    }),
-    { name: 'ZustandStore' }
-  )
-)
+export const useStore = create<Store>()((set, get) => ({
+  ...initialState,
+  setTokenList: qty => {
+    set({ ...qty })
+  },
+}))
 
 /**
  * 

@@ -8,12 +8,13 @@ import { Search2Icon } from '@chakra-ui/icons'
 import Connector from './Connector'
 import { BsCoin } from 'react-icons/bs'
 import TokenList from './TokenList'
-import { useAccount, useNetwork, useContractRead, useContractReads } from 'wagmi'
+import { useAccount, useNetwork, useContractRead, useContractReads, useToken } from 'wagmi'
 import { NetworkProps } from '@/app/hooks'
 import { useEffect } from 'react'
 import { useStore, useTokenList } from '@/app/model'
 import { formatReadsResult } from '@/app/utils'
 import { TokenList as TokenListType } from '@/app/model/initialState'
+import { FetchTokenResult } from '@wagmi/core'
 
 const NavBarPage = () => {
   const { setTokenList } = useStore()
@@ -23,72 +24,63 @@ const NavBarPage = () => {
   const { isConnected, address } = useAccount()
   const { chain } = useNetwork()
   const booTokenContract = {
-    address: chain ? ADDRESSES[chain!.network as NetworkProps]?.booToken : undefined,
-    abi: ERC20_BOO_ABI as any,
+    address: chain ? ADDRESSES[chain.id].booToken : undefined,
+    abi: ERC20_BOO_ABI,
   }
   const xddTokenContract = {
-    address: chain ? ADDRESSES[chain!.network as NetworkProps]?.xddToken : undefined,
-    abi: ERC20_XDD_ABI as any,
+    address: chain ? ADDRESSES[chain.id].xddToken : undefined,
+    abi: ERC20_XDD_ABI,
   }
   const daiTokenContract = {
-    address: chain ? ADDRESSES[chain!.network as NetworkProps]?.Dai : undefined,
-    abi: IWETH_ABI as any,
+    address: chain ? ADDRESSES[chain.id].Dai : undefined,
+    abi: IWETH_ABI,
   }
   const wethTokenContract = {
-    address: chain ? ADDRESSES[chain!.network as NetworkProps]?.IWeth : undefined,
-    abi: IWETH_ABI as any,
+    address: chain ? ADDRESSES[chain.id].IWeth : undefined,
+    abi: IWETH_ABI,
   }
-  // const contracts = [
-  //   {
-  //     address: chain ? ADDRESSES[chain!.network as NetworkProps]?.booToken : undefined,
-  //     abi: ERC20_BOO_ABI,
-  //     functionName: 'name',
-  //   },
-  // ]
-  // const { data } = useDaiContract({
-  //   functionName: 'name',
-  // })
 
-  const { data } = useContractReads({
+  // 获取 token 信息
+  const { data: booToken } = useToken({ address: chain ? ADDRESSES[chain.id].booToken : undefined })
+  const { data: xddToken } = useToken({ address: chain ? ADDRESSES[chain.id].xddToken : undefined })
+  const { data: Dai } = useToken({ address: chain ? ADDRESSES[chain.id].Dai : undefined })
+  const { data: IWeth } = useToken({ address: chain ? ADDRESSES[chain.id].IWeth : undefined })
+
+  // 获取当前账户每种 token 的 balance
+  const {
+    data,
+  }: {
+    data?: (
+      | {
+          error: Error
+          result?: undefined
+          status: 'failure'
+        }
+      | {
+          error?: undefined
+          result: BigInt
+          status: 'success'
+        }
+    )[]
+  } = useContractReads({
     contracts: [
-      { ...booTokenContract, functionName: 'name' },
-      { ...booTokenContract, functionName: 'symbol' },
       { ...booTokenContract, functionName: 'balanceOf', args: [address ? address : ''] },
-    ],
-  })
-  const { data: data2 } = useContractReads({
-    contracts: [
-      { ...xddTokenContract, functionName: 'name' },
-      { ...xddTokenContract, functionName: 'symbol' },
       { ...xddTokenContract, functionName: 'balanceOf', args: [address ? address : ''] },
-    ],
-  })
-  const { data: data3 } = useContractReads({
-    contracts: [
-      { ...daiTokenContract, functionName: 'name' },
-      { ...daiTokenContract, functionName: 'symbol' },
       { ...daiTokenContract, functionName: 'balanceOf', args: [address ? address : ''] },
-    ],
-  })
-  const { data: data4 } = useContractReads({
-    contracts: [
-      { ...wethTokenContract, functionName: 'name' },
-      { ...wethTokenContract, functionName: 'symbol' },
       { ...wethTokenContract, functionName: 'balanceOf', args: [address ? address : ''] },
     ],
   })
 
   // 设置当前账户的 tokenList
   useEffect(() => {
-    const arr = [data, data2, data3, data4]
-    const datas: TokenListType = { tokenList: [] }
-    arr.forEach(i => {
-      const obj = formatReadsResult(i, ['name', 'symbol', 'balance'])
-      obj.balance = obj.balance?.toString()
-      datas.tokenList.push(obj)
-    })
-    setTokenList(datas)
-  }, [isConnected, data, data2, data3, data4, setTokenList])
+    if (booToken && xddToken && Dai && IWeth && data) {
+      const tokenList: ({ balance?: string } & FetchTokenResult)[] = [booToken, xddToken, Dai, IWeth]
+      for (let index = 0; index < tokenList.length; index++) {
+        tokenList[index].balance = (data[index]?.result || '').toString()
+      }
+      setTokenList({ tokenList })
+    }
+  }, [booToken, data, xddToken, Dai, IWeth, setTokenList])
 
   return (
     <div className='grid grid-cols-7 justify-between items-center gap-4 mx-auto my-8 w-11/12'>

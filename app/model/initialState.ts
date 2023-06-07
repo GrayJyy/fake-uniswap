@@ -3,8 +3,10 @@
  *
  * */
 
+import { FetchTokenResult } from '@wagmi/core'
+
 // token列表
-export type TokenList = { tokenList: { name: string; symbol: string; balance: string }[] }
+export type TokenList = { tokenList: ({ balance?: string } & FetchTokenResult)[] }
 
 // token列表初始值
 export const initTokenList: TokenList = { tokenList: [] }
