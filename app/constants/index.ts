@@ -1,9 +1,3 @@
-import ERC20_BOO from './ERC20Boo.json'
-import ERC20_XDD from './ERC20Xdd.json'
-import SWAP_MULTIHOP from './SwapMultihop.json'
-import SWAP_TOKEN from './SwapToken.json'
-import IWETH from './IWeth.json'
-
 const NAV_ITEMS = [
   { name: 'Swap', url: '/' },
   { name: 'Tokens', url: '/tokens' },

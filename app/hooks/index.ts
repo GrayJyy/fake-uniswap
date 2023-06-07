@@ -1,6 +1,5 @@
-import { usePrepareContractWrite, useContractWrite, useWaitForTransaction, useContractEvent, useNetwork } from 'wagmi'
+import { usePrepareContractWrite, useContractWrite, useWaitForTransaction, useContractEvent } from 'wagmi'
 import type { WriteContractResult, WatchContractEventCallback } from '@wagmi/core'
-import { ADDRESSES, ERC20_BOO_ABI, ERC20_XDD_ABI, SWAP_TOKEN_ABI, SWAP_MULTIHOP_ABI, IWETH_ABI } from '../constants'
 
 export type UseContractProps = {
   address?: `0x${string}`
@@ -63,98 +62,4 @@ const useContract = ({
   return { write, data, isSuccess, isFetching, unwatch }
 }
 
-// const useBooContract = (params: UseContractProps) => {
-//   const { chain } = useNetwork()
-//   const { functionName, value, args, eventName, listener } = params
-//   const { write, data, isFetching, isSuccess, unwatch } = useContract({
-//     address: chain ? ADDRESSES[chain!.name as NetworkProps].booToken : undefined,
-//     abi: ERC20_BOO_ABI,
-//     functionName,
-//     value,
-//     args,
-//     eventName,
-//     listener,
-//   })
-//   return { write, data, isFetching, isSuccess, unwatch }
-// }
-
-// const useXddContract = (params: UseContractProps) => {
-//   const { chain } = useNetwork()
-//   const { functionName, value, args, eventName, listener } = params
-
-//   const { write, data, isFetching, isSuccess, unwatch } = useContract({
-//     address: chain ? ADDRESSES[chain!.name as NetworkProps]?.xddToken : undefined,
-//     abi: ERC20_XDD_ABI,
-//     functionName,
-//     value,
-//     args,
-//     eventName,
-//     listener,
-//   })
-//   return { write, data, isFetching, isSuccess, unwatch }
-// }
-
-// const useSwapTokenContract = (params: UseContractProps) => {
-//   const { functionName, value, args, eventName, listener } = params
-//   const { write, data, isFetching, isSuccess, unwatch } = useContract({
-//     address: ADDRESSES[useNet()].swapToken,
-//     abi: SWAP_TOKEN_ABI,
-//     functionName,
-//     value,
-//     args,
-//     eventName,
-//     listener,
-//   })
-//   return { write, data, isFetching, isSuccess, unwatch }
-// }
-
-// const useSwapMultihopContract = (params: UseContractProps) => {
-//   const { functionName, value, args, eventName, listener } = params
-//   const { write, data, isFetching, isSuccess, unwatch } = useContract({
-//     address: ADDRESSES[useNet()].multiSwapToken,
-//     abi: SWAP_MULTIHOP_ABI,
-//     functionName,
-//     value,
-//     args,
-//     eventName,
-//     listener,
-//   })
-//   return { write, data, isFetching, isSuccess, unwatch }
-// }
-// const useIwethContract = (params: UseContractProps) => {
-//   const { functionName, value, args, eventName, listener } = params
-//   const { write, data, isFetching, isSuccess, unwatch } = useContract({
-//     address: ADDRESSES[useNet()].IWeth,
-//     abi: IWETH_ABI,
-//     functionName,
-//     value,
-//     args,
-//     eventName,
-//     listener,
-//   })
-//   return { write, data, isFetching, isSuccess, unwatch }
-// }
-// const useDaiContract = (params: UseContractProps) => {
-//   const { chain } = useNetwork()
-//   const { functionName, value, args, eventName, listener } = params
-//   const { write, data, isFetching, isSuccess, unwatch } = useContract({
-//     address: chain ? ADDRESSES[chain!.name as NetworkProps]?.Dai : undefined,
-//     abi: IWETH_ABI,
-//     functionName,
-//     value,
-//     args,
-//     eventName,
-//     listener,
-//   })
-//   return { write, data, isFetching, isSuccess, unwatch }
-// }
-
-export {
-  // useBooContract,
-  // useXddContract,
-  // useSwapTokenContract,
-  // useSwapMultihopContract,
-  // useIwethContract,
-  // useDaiContract,
-  useContract,
-}
+export { useContract }

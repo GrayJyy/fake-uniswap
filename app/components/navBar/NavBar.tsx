@@ -9,11 +9,8 @@ import Connector from './Connector'
 import { BsCoin } from 'react-icons/bs'
 import TokenList from './TokenList'
 import { useAccount, useNetwork, useContractRead, useContractReads, useToken } from 'wagmi'
-import { NetworkProps } from '@/app/hooks'
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useStore, useTokenList } from '@/app/model'
-import { formatReadsResult } from '@/app/utils'
-import { TokenList as TokenListType } from '@/app/model/initialState'
 import { FetchTokenResult } from '@wagmi/core'
 
 const NavBarPage = () => {
@@ -71,8 +68,7 @@ const NavBarPage = () => {
     ],
   })
 
-  // 设置当前账户的 tokenList
-  useEffect(() => {
+  const handleTokenList = useCallback(() => {
     if (booToken && xddToken && Dai && IWeth && data) {
       const tokenList: ({ balance?: string } & FetchTokenResult)[] = [booToken, xddToken, Dai, IWeth]
       for (let index = 0; index < tokenList.length; index++) {
@@ -81,6 +77,11 @@ const NavBarPage = () => {
       setTokenList({ tokenList })
     }
   }, [booToken, data, xddToken, Dai, IWeth, setTokenList])
+
+  // 设置当前账户的 tokenList
+  useEffect(() => {
+    handleTokenList()
+  }, [handleTokenList])
 
   return (
     <div className='grid grid-cols-7 justify-between items-center gap-4 mx-auto my-8 w-11/12'>
