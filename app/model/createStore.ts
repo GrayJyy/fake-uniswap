@@ -3,7 +3,7 @@
  *
  * */
 import { create } from 'zustand'
-// import { persist } from 'zustand/middleware'
+import { persist, devtools } from 'zustand/middleware'
 
 import type { State, TokenList } from './initialState'
 import { initialState } from './initialState'
@@ -14,12 +14,17 @@ interface Action {
 
 export type Store = State & Action
 
-export const useStore = create<Store>()((set, get) => ({
-  ...initialState,
-  setTokenList: qty => {
-    set({ ...qty })
-  },
-}))
+export const useStore = create<Store>()(
+  devtools(
+    (set, get) => ({
+      ...initialState,
+      setTokenList: qty => {
+        set({ ...qty })
+      },
+    }),
+    { name: 'ZustandStore' }
+  )
+)
 
 /**
  * 
